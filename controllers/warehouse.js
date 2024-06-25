@@ -92,4 +92,51 @@ const postOneWarehouse = [
   },
 ];
 
-export { getWarehouses, getOneWarehouse, postOneWarehouse };
+const editOneWarehouse = [
+  body("warehouse_name").notEmpty().withMessage("Warehouse name is required"),
+  body("address").notEmpty().withMessage("Address is required"),
+  body("city").notEmpty().withMessage("City is required"),
+  body("country").notEmpty().withMessage("Country is required"),
+  body("contact_name").notEmpty().withMessage("Contact name is required"),
+  body("contact_position").notEmpty().withMessage("Contact position is required"),
+  body("contact_phone")
+    .notEmpty()
+    .matches(/^\+\d{1,2}\s?\(\d{3}\)\s?\d{3}-\d{4}$/)
+    .withMessage("Contact phone number is invalid"),
+  body("contact_email").isEmail().withMessage("Contact email is invalid"),
+
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const { id } = req.params;
+    const { warehouse_name, address, city, country, contact_name, contact_position, contact_phone, contact_email } = req.body;
+
+    try {
+      const existing = await knex("warehouses").where({ id });
+      if (!existing) {
+        return res.status(404).send("Warehouse not found");
+      }
+
+      const updated = await knex("warehouses").where({ id }).update({
+        warehouse_name,
+        address,
+        city,
+        country,
+        contact_name,
+        contact_position,
+        contact_phone,
+        contact_email,
+      });
+
+      const updatedWarehouse = await knex("warehouses").where({ id });
+      res.status(200).json(updatedWarehouse[0]);
+    } catch (error) {
+      res.status(500).send(`Error updating warehouse: ${error.message}`);
+    }
+  },
+];
+
+export { getWarehouses, getOneWarehouse, postOneWarehouse, editOneWarehouse };
