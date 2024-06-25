@@ -5,10 +5,12 @@ const knex = initKnex(configuration);
 import express from "express";
 const router = express.Router();
 
+
 router.get("/", async (_req, res) => {
   try {
     const data = await knex("warehouses");
     const formattedData = data.map((warehouse) => {
+
       return {
         id: warehouse.id,
         warehouse_name: warehouse.warehouse_name,
@@ -24,6 +26,7 @@ router.get("/", async (_req, res) => {
     res.status(200).json(formattedData);
   } catch (err) {
     res.status(400).send(`Error retrieving Warehouses: ${err}`);
+
   }
 });
 
