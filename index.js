@@ -17,7 +17,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/warehouses", warehouseRoutes);
-app.use("/api/inventories", inventoryRoutes)
+app.use("/api/inventories", inventoryRoutes);
 
 app.listen(PORT, () => {
   console.log("App is running on port ", PORT);
