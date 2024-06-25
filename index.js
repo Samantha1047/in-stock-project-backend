@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import "dotenv/config";
 import warehouseRoutes from "./routes/warehouse.js";
+import inventoryRoutes from "./routes/inventory.js"
 
 const app = express();
 app.use(cors());
@@ -16,6 +17,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/warehouses", warehouseRoutes);
+app.use("/api/inventories", inventoryRoutes)
 
 app.listen(PORT, () => {
   console.log("App is running on port ", PORT);
