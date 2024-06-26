@@ -7,5 +7,6 @@ router.route("/")
 
 router.route("/:id")
     .get(inventoryControllers.getOneInventory)
+    .put(inventoryControllers.editOneInventory)
 
 export default router;
