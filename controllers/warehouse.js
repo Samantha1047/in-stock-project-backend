@@ -163,6 +163,7 @@ const editOneWarehouse = [
   },
 ];
 
+
 const getInventoryByWarehouseId = async (req, res) => {
   const { id } = req.params;
   try {
@@ -181,10 +182,23 @@ const getInventoryByWarehouseId = async (req, res) => {
   }
 };
 
-export {
-  getWarehouses,
-  getOneWarehouse,
-  postOneWarehouse,
-  editOneWarehouse,
-  getInventoryByWarehouseId,
+const deleteWarehouse = async (req, res) => {
+  const { id } = req.params;
+  try {
+    await knex.transaction(async (trx) => {
+      await trx("inventories").where({ warehouse_id: id }).delete();
+      const warehouseDeleted = await trx("warehouses").where({ id }).delete();
+
+      if (warehouseDeleted === 0) {
+        res.status(404).json({ message: "Warehouse not found" });
+      }
+
+      res.sendStatus(204);
+    });
+  } catch (error) {
+    res.status(500).json({ message: `Unable to delete warehouse: ${error.message}` });
+  }
 };
+
+export { getWarehouses, getOneWarehouse, postOneWarehouse, editOneWarehouse, deleteWarehouse,getInventoryByWarehouseId };
+
