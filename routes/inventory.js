@@ -5,4 +5,7 @@ const router = express.Router();
 router.route("/")
     .get(inventoryControllers.getInventory)
 
+router.route("/:id")
+    .get(inventoryControllers.getOneInventory)
+
 export default router;
