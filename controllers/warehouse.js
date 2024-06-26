@@ -147,7 +147,7 @@ const deleteWarehouse = async (req, res) => {
       const warehouseDeleted = await trx("warehouses").where({ id }).delete();
 
       if (warehouseDeleted === 0) {
-        res.status(404).json({ message: error.message });
+        res.status(404).json({ message: "Warehouse not found" });
       }
 
       res.sendStatus(204);
