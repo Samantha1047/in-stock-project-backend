@@ -9,6 +9,7 @@ router
 
 router.route("/:id")
     .get(inventoryControllers.getOneInventory)
+    .put(inventoryControllers.editOneInventory)
     .delete(inventoryControllers.deleteInventory)
 
 router.route('/:id')
