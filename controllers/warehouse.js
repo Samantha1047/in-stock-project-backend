@@ -120,7 +120,7 @@ const editOneWarehouse = [
         return res.status(404).send("Warehouse not found");
       }
 
-      const updated = await knex("warehouses").where({ id }).update({
+      await knex("warehouses").where({ id }).update({
         warehouse_name,
         address,
         city,
