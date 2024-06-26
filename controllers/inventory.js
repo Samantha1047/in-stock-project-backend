@@ -87,6 +87,7 @@ const postOneInventory = [
 
             const createdInventory = await knex('inventories')
                 .where({ id: newInventoryId })
+                .select('id', 'warehouse_id', 'item_name', 'description', 'category', 'status', 'quantity')
                 .first()
 
             res.status(201).json(createdInventory)
