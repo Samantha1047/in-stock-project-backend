@@ -72,7 +72,7 @@ const editOneInventory = [
                 return res.status(404).send('Inventory item not found')
             }
             const existingWarehouse = await knex('warehouses')
-                .where({ warehouse_id })
+                .where({ id: warehouse_id })
                 .first()
             if (!existingWarehouse) {
                 return res.status(400).json({ message: 'Invalid Warehouse ID' })
